@@ -1,7 +1,7 @@
-import { Ionicons } from '@expo/vector-icons';
-import * as Font from 'expo-font';
+import { cacheImages} from '../constants/cachingFunctions'
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
+import preloadImages from "../constants/images";
 
 export default function useCachedResources() {
   const [isLoadingComplete, setLoadingComplete] = React.useState(false);
@@ -12,11 +12,8 @@ export default function useCachedResources() {
       try {
         SplashScreen.preventAutoHideAsync();
 
-        // Load fonts
-        await Font.loadAsync({
-          ...Ionicons.font,
-          'space-mono': require('../assets/fonts/SpaceMono-Regular.ttf'),
-        });
+        // get all images and cache them for faster loading
+        cacheImages(preloadImages)
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);
